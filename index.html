@@ -217,8 +217,9 @@
             height: 100%; /* Explicit declaration to prevent iOS height collapsing */
             flex-shrink: 0; /* WebKit requirement: prevents panels from compressing flat under flex parents */
             display: flex;
+            flex-direction: column; /* Changed to column to cleanly stack content */
             align-items: center;
-            justify-content: center;
+            justify-content: flex-start; /* Changed from center to prevent top cutoff */
             padding: 40px 60px;
             box-sizing: border-box;
             
@@ -289,6 +290,8 @@
             gap: 50px;
             align-items: center;
             width: 100%;
+            margin-top: auto;   /* Automatically pushes content down if there's room */
+            margin-bottom: auto;/* Automatically keeps vertical balance cleanly */
         }
 
         .avatar-container {
@@ -346,7 +349,12 @@
             display: block;
         }
 
-        .centered-layout { text-align: center; width: 100%; }
+        .centered-layout { 
+            text-align: center; 
+            width: 100%; 
+            margin-top: auto;   /* Safely absorbs extra layout spacing */
+            margin-bottom: auto;/* Prevents overflow from locking headers offscreen */
+        }
         .centered-layout .sub-description { margin-left: auto; margin-right: auto; }
 
         /* Content Interactive Cards */
@@ -448,7 +456,7 @@
         @media (max-width: 550px) {
             .cards-grid { grid-template-columns: 1fr; }
             /* Handle extreme mobile viewports cleanly */
-            .page-slide { padding: 20px 15px; }
+            .page-slide { padding: 30px 15px; } /* Slightly enhanced top breathing room */
             .content-body { scroll-snap-type: y proximity; } /* Softer mobile snap if components overflow bounds */
         }
     </style>

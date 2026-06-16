@@ -145,7 +145,7 @@
             margin-top: 1px;
         }
 
-        /* Top Navigation Tracker Hub (No Buttons, Just Indicator) */
+        /* Top Navigation Tracker Hub */
         .top-navigation-hub {
             display: flex;
             align-items: center;
@@ -178,6 +178,7 @@
             border-radius: 50%;
             background: rgba(106, 83, 140, 0.25);
             transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
         }
 
         .top-dot.active {
@@ -193,7 +194,6 @@
             overflow-y: scroll;
             scroll-snap-type: y mandatory;
             scroll-behavior: smooth;
-            /* Hide default scrollbar tracks visually while preserving accessibility */
             scrollbar-width: thin;
             scrollbar-color: rgba(106, 83, 140, 0.2) transparent;
         }
@@ -713,17 +713,16 @@
         // 1. Generate Twinkling Background Stars dynamically
         function createStarfield() {
             const container = document.getElementById('starfield');
-            const starCount = 1000; // *UPDATED*: Significantly increased for user request to have "many" stars.
+            const starCount = 1000; 
 
             for (let i = 0; i < starCount; i++) {
                 const star = document.createElement('div');
                 star.classList.add('star');
                 
-                // Randomize sizing, coordinates, and animation pacing
-                const size = Math.random() * 3 + 1; // 1px to 4px
+                const size = Math.random() * 3 + 1; 
                 const topPos = Math.random() * 100;
                 const leftPos = Math.random() * 100;
-                const duration = Math.random() * 3 + 2; // 2s to 5s
+                const duration = Math.random() * 3 + 2; 
 
                 star.style.width = `${size}px`;
                 star.style.height = `${size}px`;
@@ -735,28 +734,25 @@
             }
         }
 
-        // 2. Intersection Observer to intelligently detect scroll snapping and apply animations
+        // 2. Intersection Observer to detect scroll snapping and apply animations
         const slides = document.querySelectorAll('.page-slide');
         const dots = document.querySelectorAll('#topDotsContainer .top-dot');
         const indicatorText = document.getElementById('pageIndicatorText');
 
         const observerOptions = {
             root: document.getElementById('scrollContainer'),
-            threshold: 0.51 // Triggers past the halfway mark of scroll transition
+            threshold: 0.51 
         };
 
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    // Remove active tag from old panels, apply to target panel
                     slides.forEach(s => s.classList.remove('active'));
                     entry.target.classList.add('active');
 
-                    // Determine index configuration
                     const currentIndex = Array.from(slides).indexOf(entry.target);
                     const pageNumber = currentIndex + 1;
 
-                    // Update Top Tracking Navigation Dots
                     dots.forEach((dot, index) => {
                         if (index === currentIndex) {
                             dot.classList.add('active');
@@ -765,7 +761,6 @@
                         }
                     });
 
-                    // Update structural tracking footer string
                     indicatorText.innerText = `PAGE ${pageNumber} OF ${totalPages} · ${pageTitles[currentIndex]}`;
                 }
             });
@@ -773,34 +768,41 @@
 
         slides.forEach(slide => observer.observe(slide));
 
-        // 3. Live Countdown Module
+        // 3. Click Navigation Feature for Dot Indicators
+        dots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                slides[index].scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+
+        // 4. Live Countdown Module
         const targetDate = new Date("July 11, 2026 11:00:00").getTime();
 
-        const countdownInterval = setInterval(function() {
+        const countdownInterval = setInterval(() => {
             const now = new Date().getTime();
             const difference = targetDate - now;
 
-            const d = Math.floor(difference / (1000 * 60 * 60 * 24));
-            const h = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const m = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
-            const s = Math.floor((difference % (1000 * 60)) / 1000);
-
-            document.getElementById("days").innerText = d < 10 ? "0" + d : d;
-            document.getElementById("hours").innerText = h < 10 ? "0" + h : h;
-            document.getElementById("minutes").innerText = m < 10 ? "0" + m : m;
-            document.getElementById("seconds").innerText = s < 10 ? "0" + s : s;
-
             if (difference < 0) {
                 clearInterval(countdownInterval);
-                document.querySelector(".countdown-title").innerText = "The Magic Has Begun! ✨";
                 document.getElementById("days").innerText = "00";
                 document.getElementById("hours").innerText = "00";
                 document.getElementById("minutes").innerText = "00";
                 document.getElementById("seconds").innerText = "00";
+                return;
             }
+
+            const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+            document.getElementById("days").innerText = days.toString().padStart(2, '0');
+            document.getElementById("hours").innerText = hours.toString().padStart(2, '0');
+            document.getElementById("minutes").innerText = minutes.toString().padStart(2, '0');
+            document.getElementById("seconds").innerText = seconds.toString().padStart(2, '0');
         }, 1000);
 
-        // Run generators on init
+        // Run Starfield on layout mount
         createStarfield();
     </script>
 </body>

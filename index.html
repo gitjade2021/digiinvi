@@ -216,17 +216,17 @@
             justify-content: center;
             padding: 40px 60px;
             box-sizing: border-box;
-            opacity: 0.3;
-            transform: scale(0.96);
-            filter: blur(4px);
-            transition: all 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+            /* FIXED: Set defaults to 100% visible and unblurred so pages never get stuck */
+            opacity: 1;
+            transform: scale(1);
+            filter: none;
         }
 
-        /* Cinematic entry transition when active panel comes into full view */
+        /* Active class retained purely for JavaScript tracking and dot navigation updates */
         .page-slide.active {
             opacity: 1;
             transform: scale(1);
-            filter: blur(0);
+            filter: none;
         }
 
         /* UI Badges */

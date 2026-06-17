@@ -478,26 +478,97 @@
             .invitation-window { height: 88vh; height: 88dvh; }
         }
 
-        /* --- MOBILE VIEWPORT RESET FOR CONTINUOUS SCROLL & NO ANIMATIONS --- */
+        /* --- MOBILE VIEWPORT RESET FOR CONTINUOUS SCROLL & FULLSCREEN MATCH --- */
         @media (max-width: 550px) {
-            /* Turn off overall scroll snapping behavior */
-            .content-body { 
-                scroll-snap-type: none !important; 
-            }
-            
-            /* Allow slides to sit organically inside the flow */
-            .page-slide { 
-                scroll-snap-align: none !important;
-                scroll-snap-stop: normal !important;
-                height: auto !important;
-                min-height: auto !important;
-                padding: 35px 20px; 
-                opacity: 1 !important; 
-                transform: none !important;
-                transition: none !important;
+            body {
+                padding: 0;
+                overflow: hidden; /* Prevent body tracking layout scroll */
             }
 
-            /* Disable CPU/GPU taxing background animations */
+            /* Main wrapper container takes true full device screen */
+            .invitation-window {
+                height: 100vh;
+                height: 100dvh;
+                max-height: none;
+                border-radius: 0;
+                border: none;
+                box-shadow: none;
+                background: transparent;
+                backdrop-filter: none;
+                -webkit-backdrop-filter: none;
+            }
+
+            /* Optimized shining starfield background injected straight to body backdrop */
+            body::before {
+                content: "";
+                position: fixed;
+                top: 0; left: 0; width: 100%; height: 100%;
+                z-index: 0;
+                pointer-events: none;
+                background-image: 
+                    radial-gradient(1.5px 1.5px at 15% 18%, #ffffff 100%, transparent),
+                    radial-gradient(2px 2px at 45% 40%, #ffffff 80%, transparent),
+                    radial-gradient(1px 1px at 75% 25%, #ffffff 100%, transparent),
+                    radial-gradient(2px 2px at 25% 70%, #ffffff 90%, transparent),
+                    radial-gradient(1.5px 1.5px at 60% 85%, #ffffff 100%, transparent),
+                    radial-gradient(2px 2px at 85% 65%, #ffffff 70%, transparent);
+                background-size: 100% 100%;
+                opacity: 0.6;
+                animation: mobileStarsTwinkle 3.5s ease-in-out infinite alternate;
+            }
+
+            @keyframes mobileStarsTwinkle {
+                0% { opacity: 0.3; }
+                50% { opacity: 0.7; }
+                100% { opacity: 0.4; }
+            }
+
+            /* Enable touch scrolling context explicitly within the viewport layout wrapper */
+            .content-body { 
+                scroll-snap-type: y mandatory !important; 
+                overflow-y: scroll !important;
+                -webkit-overflow-scrolling: touch;
+            }
+            
+            /* Align slides to fullscreen snapshots so they stay clean on mobile frames */
+            .page-slide { 
+                scroll-snap-align: start !important;
+                scroll-snap-stop: always !important;
+                height: 100% !important;
+                min-height: 100% !important;
+                padding: 24px 20px;
+                display: flex;
+                flex-direction: column;
+                justify-content: center; /* Vertically center content perfectly in the fullscreen frame */
+                box-sizing: border-box;
+            }
+
+            .top-bar {
+                background: rgba(255, 255, 255, 0.4);
+                backdrop-filter: blur(15px);
+                -webkit-backdrop-filter: blur(15px);
+                border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+                padding: 12px;
+            }
+
+            .bottom-bar {
+                background: rgba(255, 255, 255, 0.3);
+                backdrop-filter: blur(10px);
+                -webkit-backdrop-filter: blur(10px);
+                padding: 12px;
+            }
+
+            .main-title {
+                font-size: 28px !important;
+                margin-bottom: 12px !important;
+            }
+
+            .sub-description {
+                font-size: 13px !important;
+                margin-bottom: 16px !important;
+            }
+
+            /* Disable heavy CSS animations on structural decoration fragments */
             .star, .bg-decor, .frame-decor {
                 animation: none !important;
             }
@@ -505,81 +576,70 @@
             /* Birthday Details & Reminders Card Grid Compression to Eliminate Negative Space */
             #slide2 .cards-grid {
                 grid-template-columns: repeat(2, 1fr) !important; 
-                gap: 12px !important;
-                margin-bottom: 20px !important;
+                gap: 10px !important;
+                margin-bottom: 14px !important;
             }
             
             #slide3 .cards-grid { 
                 grid-template-columns: repeat(2, 1fr) !important; 
-                gap: 12px !important;
-                margin-bottom: 20px !important;
+                gap: 8px !important;
+                margin-bottom: 10px !important;
             }
 
             #slide2 .info-card,
             #slide3 .info-card {
-                padding: 16px 12px 50px 12px !important; /* Added 50px bottom padding to give space for absolute positioned buttons */
+                padding: 12px 10px 48px 10px !important; /* Absolute layout spacing preservation */
                 text-align: center !important;
                 align-items: center;
                 border: 1px solid rgba(106, 83, 140, 0.15);
                 position: relative !important;
             }
             
-            /* Override bottom padding on slide 3 since they do not contain absolute buttons anymore */
+            /* Remove absolute space override on slide 3 since they do not hold secondary map link CTA tools */
             #slide3 .info-card {
-                padding: 16px 12px !important;
+                padding: 12px 8px !important;
             }
 
             #slide2 .card-icon,
             #slide3 .card-icon {
-                margin-bottom: 8px !important;
-                width: 28px !important;
-                height: 28px !important;
-                font-size: 12px !important;
+                margin-bottom: 6px !important;
+                width: 26px !important;
+                height: 26px !important;
+                font-size: 11px !important;
             }
 
             #slide2 .card-title,
             #slide3 .card-title {
-                font-size: 13px !important;
-                margin-bottom: 4px !important;
+                font-size: 12px !important;
+                margin-bottom: 2px !important;
             }
 
             #slide2 .card-text,
             #slide3 .card-text {
-                font-size: 11px !important;
-                line-height: 1.4 !important;
+                font-size: 10px !important;
+                line-height: 1.35 !important;
             }
 
             /* Align buttons to bottom center inside the mobile cards */
             .map-locator-btn, .calendar-btn {
                 position: absolute !important;
-                bottom: 12px !important;
+                bottom: 10px !important;
                 left: 50% !important;
                 transform: translateX(-50%) !important;
-                padding: 6px 10px !important;
-                font-size: 10px !important;
-                width: calc(100% - 24px) !important; /* Centers neatly with margins inside the card padding */
+                padding: 5px 8px !important;
+                font-size: 9.5px !important;
+                width: calc(100% - 20px) !important;
                 box-sizing: border-box !important;
             }
             
             .map-locator-btn:hover, .calendar-btn:hover {
-                transform: translateX(-50%) scale(1.03) !important; /* Preserve horizontal center alignment on hover scale */
+                transform: translateX(-50%) scale(1.02) !important;
             }
 
-            /* Decorative Inline Mini Celestial Separator within both content grids */
-            #slide2 .cards-grid::after,
-            #slide3 .cards-grid::after {
-                content: "✨ ‧ 🌙 ‧ ✨";
-                display: block;
-                grid-column: span 2;
-                font-size: 12px;
-                color: var(--text-muted);
-                opacity: 0.6;
-                text-align: center;
-                margin-top: 4px;
-                letter-spacing: 4px;
+            .avatar-photo {
+                max-height: 220px !important;
             }
 
-            .cards-grid { grid-template-columns: 1fr; }
             .details-bg-decor { display: none; }
             .scroll-instruction-text { display: none; }
         }
@@ -716,7 +776,6 @@
 
         // 1. Generate Twinkling Background Stars dynamically
         function createStarfield() {
-            // Bypass generation on small screens to preserve mobile layout processing power
             if (window.innerWidth <= 550) return;
 
             const container = document.getElementById('starfield');
@@ -741,7 +800,7 @@
             }
         }
 
-        // 2. Intersection Observer to detect scroll snapping and handle transition states
+        // 2. Intersection Observer to detect scroll snapping updates across devices
         const slides = document.querySelectorAll('.page-slide');
         const dots = document.querySelectorAll('#topDotsContainer .top-dot');
         const indicatorText = document.getElementById('pageIndicatorText');
@@ -752,9 +811,6 @@
         };
 
         const observer = new IntersectionObserver((entries) => {
-            // Only update active styles via observer if we are on desktop layout snap environment
-            if (window.innerWidth <= 550) return;
-
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     slides.forEach(s => s.classList.remove('active'));

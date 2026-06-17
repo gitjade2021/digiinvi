@@ -6,7 +6,7 @@
     <title>Celeste Veronica - Moon & Stars Invitation</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Playfair+Display:ital,wght=0,400..900;1,400..900&family=Plus+Jakarta+Sans:ital,wght=0,200..800;1,200..800&display=swap" rel="stylesheet">
     
     <style>
         :root {
@@ -29,7 +29,6 @@
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
             background: var(--bg-gradient);
-            /* Cross-browser dynamic viewport height fix for iOS Safari toolbar issue */
             height: 100vh;
             height: 100dvh;
             display: flex;
@@ -192,9 +191,9 @@
 
         /* Scrollable Viewport Container with Snap Behavior */
         .content-body {
-            flex: 1 1 auto; /* Allows expanding but explicitly ensures container layout logic is handled safely */
+            flex: 1 1 auto;
             overflow-y: auto;
-            -webkit-overflow-scrolling: touch; /* Forces physics-based inertial scrolling execution on iOS */
+            -webkit-overflow-scrolling: touch;
             scroll-snap-type: y mandatory;
             scroll-behavior: smooth;
             scrollbar-width: thin;
@@ -214,22 +213,20 @@
             scroll-snap-align: start;
             scroll-snap-stop: always;
             min-height: 100%;
-            height: 100%; /* Explicit declaration to prevent iOS height collapsing */
-            flex-shrink: 0; /* WebKit requirement: prevents panels from compressing flat under flex parents */
+            height: 100%;
+            flex-shrink: 0;
             display: flex;
-            flex-direction: column; /* Changed to column to cleanly stack content */
+            flex-direction: column;
             align-items: center;
-            justify-content: flex-start; /* Changed from center to prevent top cutoff */
+            justify-content: flex-start;
             padding: 40px 60px;
             box-sizing: border-box;
             
-            /* Enhanced scroll animation layout setup */
             opacity: 0;
             transform: translateY(20px);
             transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1), transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
         }
 
-        /* Active transition trigger class */
         .page-slide.active {
             opacity: 1;
             transform: translateY(0);
@@ -290,8 +287,8 @@
             gap: 50px;
             align-items: center;
             width: 100%;
-            margin-top: auto;   /* Automatically pushes content down if there's room */
-            margin-bottom: auto;/* Automatically keeps vertical balance cleanly */
+            margin-top: auto;
+            margin-bottom: auto;
         }
 
         .avatar-container {
@@ -314,32 +311,15 @@
             filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
             animation: container-twinkle 2.5s ease-in-out infinite alternate;
         }
-        .frame-decor.f-moon {
-            top: 22px;
-            right: 22px;
-            font-size: 20px;
-        }
-        .frame-decor.f-star-1 {
-            bottom: 22px;
-            left: 22px;
-            color: #f1c40f;
-            animation-delay: 0.5s;
-        }
-        .frame-decor.f-star-2 {
-            top: 26px;
-            left: 26px;
-            font-size: 11px;
-            color: #f1c40f;
-            opacity: 0.8;
-            animation-delay: 1.2s;
-        }
+        .frame-decor.f-moon { top: 22px; right: 22px; font-size: 20px; }
+        .frame-decor.f-star-1 { bottom: 22px; left: 22px; color: #f1c40f; animation-delay: 0.5s; }
+        .frame-decor.f-star-2 { top: 26px; left: 26px; font-size: 11px; color: #f1c40f; opacity: 0.8; animation-delay: 1.2s; }
 
         @keyframes container-twinkle {
             0% { transform: scale(0.9); opacity: 0.7; }
             100% { transform: scale(1.1); opacity: 1; }
         }
 
-        /* Updated Image Frame Layout Setup */
         .avatar-photo {
             width: 100%;
             height: auto;
@@ -352,10 +332,23 @@
         .centered-layout { 
             text-align: center; 
             width: 100%; 
-            margin-top: auto;   /* Safely absorbs extra layout spacing */
-            margin-bottom: auto;/* Prevents overflow from locking headers offscreen */
+            margin-top: auto;
+            margin-bottom: auto;
+            position: relative;
         }
         .centered-layout .sub-description { margin-left: auto; margin-right: auto; }
+
+        /* Negative Space Graphic Enhancements for Slide 2 */
+        .details-bg-decor {
+            position: absolute;
+            font-size: 40px;
+            opacity: 0.12;
+            pointer-events: none;
+            user-select: none;
+        }
+        .decor-cloud-left { left: -30px; top: 40%; transform: scaleX(-1); }
+        .decor-cloud-right { right: -30px; top: 20%; }
+        .decor-stars-center { left: 50%; bottom: -50px; transform: translateX(-50%); font-size: 24px; letter-spacing: 15px; color: var(--primary-purple); }
 
         /* Content Interactive Cards */
         .cards-grid {
@@ -364,6 +357,8 @@
             gap: 16px;
             margin-bottom: 30px;
             width: 100%;
+            position: relative;
+            z-index: 2;
         }
 
         .info-card {
@@ -397,10 +392,35 @@
             width: 32px; height: 32px; border-radius: 10px;
             display: flex; align-items: center; justify-content: center;
             font-size: 14px; margin-bottom: 16px;
+            flex-shrink: 0;
         }
 
         .card-title { font-size: 15px; font-weight: 700; color: var(--primary-purple); margin-bottom: 10px; }
         .card-text { font-size: 11.5px; line-height: 1.55; color: var(--text-muted); }
+
+        /* Aesthetic View Locator Map Button */
+        .map-locator-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            margin-top: auto;
+            padding: 8px 14px;
+            background: linear-gradient(135deg, #7d6a9e 0%, #6a538c 100%);
+            color: #fff;
+            font-size: 11px;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(106, 83, 140, 0.2);
+            transition: all 0.2s ease;
+        }
+
+        .map-locator-btn:hover {
+            background: linear-gradient(135deg, #6a538c 0%, #503d6c 100%);
+            transform: scale(1.03);
+            box-shadow: 0 6px 15px rgba(106, 83, 140, 0.3);
+        }
 
         .info-card.alert-card {
             border: 1.5px solid #f9e29c;
@@ -425,9 +445,9 @@
         }
 
         .page-indicator-text {
-            font-size: 10px;
+            font-size: 11px;
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 1px;
             color: var(--text-muted);
             font-weight: 700;
         }
@@ -449,15 +469,90 @@
             .invitation-window { height: 88vh; height: 88dvh; }
         }
 
-        @media (max-width: 600px) {
-            .countdown-container { padding: 30px 16px; }
-        }
-
+        /* --- MOBILE VIEWPORT RESET FOR CONTINUOUS SCROLL & NO ANIMATIONS --- */
         @media (max-width: 550px) {
+            /* Turn off overall scroll snapping behavior */
+            .content-body { 
+                scroll-snap-type: none !important; 
+            }
+            
+            /* Allow slides to sit organically inside the flow */
+            .page-slide { 
+                scroll-snap-align: none !important;
+                scroll-snap-stop: normal !important;
+                height: auto !important;
+                min-height: auto !important;
+                padding: 35px 20px; 
+                opacity: 1 !important; 
+                transform: none !important;
+                transition: none !important;
+            }
+
+            /* Disable CPU/GPU taxing background animations */
+            .star, .bg-decor, .frame-decor {
+                animation: none !important;
+            }
+
+            /* Birthday Details & Reminders Card Grid Compression to Eliminate Negative Space */
+            #slide2 .cards-grid,
+            #slide3 .cards-grid { 
+                grid-template-columns: repeat(2, 1fr) !important; 
+                gap: 12px !important;
+                margin-bottom: 20px !important;
+            }
+
+            #slide2 .info-card,
+            #slide3 .info-card {
+                padding: 16px 12px !important;
+                text-align: center !important;
+                align-items: center;
+                border: 1px solid rgba(106, 83, 140, 0.15);
+            }
+
+            #slide2 .card-icon,
+            #slide3 .card-icon {
+                margin-bottom: 8px !important;
+                width: 28px !important;
+                height: 28px !important;
+                font-size: 12px !important;
+            }
+
+            #slide2 .card-title,
+            #slide3 .card-title {
+                font-size: 13px !important;
+                margin-bottom: 4px !important;
+            }
+
+            #slide2 .card-text,
+            #slide3 .card-text {
+                font-size: 11px !important;
+                line-height: 1.4 !important;
+            }
+
+            .map-locator-btn {
+                margin-top: 8px !important;
+                padding: 6px 10px !important;
+                font-size: 10px !important;
+                width: 100%;
+            }
+
+            /* Decorative Inline Mini Celestial Separator within both content grids */
+            #slide2 .cards-grid::after,
+            #slide3 .cards-grid::after {
+                content: "✨ ‧ 🌙 ‧ ✨";
+                display: block;
+                grid-column: span 2;
+                font-size: 12px;
+                color: var(--text-muted);
+                opacity: 0.6;
+                text-align: center;
+                margin-top: 4px;
+                letter-spacing: 4px;
+            }
+
             .cards-grid { grid-template-columns: 1fr; }
-            /* Handle extreme mobile viewports cleanly */
-            .page-slide { padding: 30px 15px; } /* Slightly enhanced top breathing room */
-            .content-body { scroll-snap-type: y proximity; } /* Softer mobile snap if components overflow bounds */
+            .details-bg-decor { display: none; }
+            .scroll-instruction-text { display: none; }
         }
     </style>
 </head>
@@ -485,7 +580,6 @@
                     <div class="top-dot active"></div>
                     <div class="top-dot"></div>
                     <div class="top-dot"></div>
-                    <div class="top-dot"></div>
                 </div>
             </div>
         </header>
@@ -503,7 +597,7 @@
                     </div>
                     <div>
                         <span class="section-badge">✨ Twinkle Twinkle Little One</span>
-                        <h2 class="main-title">Celeste Veronica<br>turns one</h2>
+                        <h2 class="main-title">Celeste Veronica<br>turns ONE</h2>
                         <p class="sub-description">Float with us into a soft little sky of moonbeams, giggles, and first-birthday magic.</p>
                         <div class="info-pill-banner">A moon & stars celebration for our brightest little dream.</div>
                     </div>
@@ -512,6 +606,10 @@
 
             <div class="page-slide" id="slide2">
                 <div class="centered-layout">
+                    <div class="details-bg-decor decor-cloud-left">☁️</div>
+                    <div class="details-bg-decor decor-cloud-right">☁️</div>
+                    <div class="details-bg-decor decor-stars-center">✦ ✦ ✦</div>
+
                     <span class="section-badge">✨ Save The Date</span>
                     <h2 class="main-title">Birthday Details</h2>
                     <p class="sub-description">Please join us for a dreamy midday celebration wrapped in blush, lavender, cream, and starlight.</p>
@@ -520,7 +618,10 @@
                         <div class="info-card">
                             <div class="card-icon">📍</div>
                             <h4 class="card-title">Venue</h4>
-                            <p class="card-text">Arabella — a beautiful setting for Celeste's first orbit around the sun.</p>
+                            <p class="card-text" style="margin-bottom: 8px;">Arabella — a beautiful setting for Celeste's first orbit around the sun.</p>
+                            <a href="https://maps.app.goo.gl/VcN479NC7HtiKBjm6" target="_blank" class="map-locator-btn">
+                                <span>View Map</span> 🌙
+                            </a>
                         </div>
                         <div class="info-card">
                             <div class="card-icon">⭐</div>
@@ -547,37 +648,6 @@
 
             <div class="page-slide" id="slide3">
                 <div class="centered-layout">
-                    <span class="section-badge">✨ Celebration Highlights</span>
-                    <h2 class="main-title">What Awaits You</h2>
-                    <p class="sub-description">A gentle constellation of playful, picture-perfect birthday moments — no schedules, just sparkle.</p>
-                    
-                    <div class="cards-grid">
-                        <div class="info-card">
-                            <div class="card-icon">✨</div>
-                            <h4 class="card-title">Bubble Dream Package</h4>
-                            <p class="card-text">Clouds of shimmering bubbles for tiny hands, bright smiles, and magical photos.</p>
-                        </div>
-                        <div class="info-card">
-                            <div class="shadow-fix card-icon">🌙</div>
-                            <h4 class="card-title">Moonlit Play Zone</h4>
-                            <p class="card-text">A soft, whimsical area for little guests to crawl, toddle, explore, and play.</p>
-                        </div>
-                        <div class="info-card">
-                            <div class="card-icon">📷</div>
-                            <h4 class="card-title">Starry Photo Corner</h4>
-                            <p class="card-text">A dreamy moon-and-stars backdrop for family portraits and sweet keepsakes.</p>
-                        </div>
-                        <div class="info-card">
-                            <div class="card-icon">🍦</div>
-                            <h4 class="card-title">Dreamy Treats & Delights</h4>
-                            <p class="card-text">Celestial sweets, delicate bites, and birthday treats made for a first-birthday fairytale.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="page-slide" id="slide4">
-                <div class="centered-layout">
                     <span class="section-badge">✨ Before You Arrive</span>
                     <h2 class="main-title">Little Reminders</h2>
                     <p class="sub-description">A few helpful notes so every guest can float comfortably through Celeste's moonlit day.</p>
@@ -587,7 +657,7 @@
                             <div class="card-icon" style="background:#e6b822;">🧦</div>
                             <h4 class="card-title">Bring Socks</h4>
                             <p class="card-text" style="margin-bottom:12px;">Important: socks are required for little ones and grown-ups entering the play area.</p>
-                            <span class="card-badge-warning">Important</span>
+                            <span class="card-badge-warning" style="align-self: center;">Important</span>
                         </div>
                         <div class="info-card">
                             <div class="card-icon">📷</div>
@@ -597,7 +667,7 @@
                         <div class="info-card">
                             <div class="card-icon">🎁</div>
                             <h4 class="card-title">Gifts</h4>
-                            <p class="card-text">Your presence is the brightest star at Celeste's celebration! If you'd like to bring a gift, anything for our little star is appreciated.</p>
+                            <p class="card-text">Your presence is the brightest star at Celeste's celebration! But if you'd like to bring a gift, anything for our little star is appreciated.</p>
                         </div>
                         <div class="info-card">
                             <div class="card-icon">👕</div>
@@ -612,25 +682,27 @@
 
         <footer class="bottom-bar">
             <div class="page-indicator-text" id="pageIndicatorText">
-                PAGE 1 OF 4 · CELESTE VERONICA TURNS ONE
+                 We can't wait to celebrate with you
             </div>
         </footer>
 
     </div>
 
     <script>
-        const totalPages = 4;
+        const totalPages = 3;
         const pageTitles = [
             "CELESTE VERONICA TURNS ONE",
             "BIRTHDAY DETAILS",
-            "WHAT AWAITS YOU",
             "LITTLE REMINDERS"
         ];
 
         // 1. Generate Twinkling Background Stars dynamically
         function createStarfield() {
+            // Bypass generation on small screens to preserve mobile layout processing power
+            if (window.innerWidth <= 550) return;
+
             const container = document.getElementById('starfield');
-            const starCount = 150; // Optimized down from 1000 to prevent WebKit layer lag on iPhone GPUs
+            const starCount = 150;
 
             for (let i = 0; i < starCount; i++) {
                 const star = document.createElement('div');
@@ -662,6 +734,9 @@
         };
 
         const observer = new IntersectionObserver((entries) => {
+            // Only update active styles via observer if we are on desktop layout snap environment
+            if (window.innerWidth <= 550) return;
+
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     slides.forEach(s => s.classList.remove('active'));
